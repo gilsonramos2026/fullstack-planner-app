@@ -1,5 +1,3 @@
-import { DesktopTable } from './DesktopTable'; // Se quiser manter separado
-// OU FAÇA TUDO AQUI EMBAIXO:
 
 export function Table() {
   return (
