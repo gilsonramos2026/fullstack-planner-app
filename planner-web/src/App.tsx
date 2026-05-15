@@ -1,9 +1,10 @@
 import { AppRoutes } from './routes/AppRoutes';
+import './index.css'; 
 
-// Named Export conforme seu padrão
 export function App() {
   return (
-    <div className="min-h-screen bg-base-200 font-sans antialiased">
+    
+    <div className="min-h-screen bg-gray-100 font-sans antialiased">
       <AppRoutes />
     </div>
   );
