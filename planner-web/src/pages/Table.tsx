@@ -1,41 +1,23 @@
-import { useEffect, useState } from 'react';
-import { getRecords } from '../api/record';
-import { IRecord } from '../api/record/types';
+import type { IRecord } from '../api/record/types';
 
-export function Table() {
-  const [records, setRecords] = useState<IRecord[]>([]);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    async function loadData() {
-      try {
-        const response = await getRecords();
-        setRecords(response.content);
-      } catch (error) {
-        console.error("Erro ao carregar dados:", error);
-      } finally {
-        setLoading(false);
-      }
-    }
-    loadData();
-  }, []);
-
-  if (loading) {
-    return <div className="p-4 text-center text-gray-500">Carregando agendamentos...</div>;
+// Removemos useState e useEffect pois a Home já gerencia o carregamento
+export function Table({ data }: { data: IRecord[] }) {
+  
+  // Se não houver dados, exibe um feedback simples sem quebrar o layout
+  if (!data || data.length === 0) {
+    return <div className="p-4 text-center text-gray-500">Nenhum agendamento encontrado.</div>;
   }
 
   return (
     <div className="w-full">
       {/* MOBILE: Visual de Card (idêntico ao seu print) */}
       <div className="md:hidden space-y-4">
-        {records.map((item) => (
+        {data.map((item) => (
           <div key={item.id} className="overflow-hidden rounded-lg border border-gray-300 shadow-sm">
-            {/* Cabeçalho do Card (Preto) */}
             <div className="bg-[#1a1a1a] p-3">
               <h3 className="text-white font-bold text-lg">{item.service}</h3>
             </div>
             
-            {/* Corpo do Card (Linhas) */}
             <div className="bg-white divide-y divide-gray-200">
               <div className="p-3 flex gap-2">
                 <span className="font-semibold text-gray-600">Data:</span>
@@ -71,7 +53,7 @@ export function Table() {
             </tr>
           </thead>
           <tbody className="divide-y divide-gray-200 bg-white">
-            {records.map((item) => (
+            {data.map((item) => (
               <tr key={item.id} className="hover:bg-gray-50 transition-colors">
                 <td className="px-6 py-4 text-gray-900 font-medium">{item.service}</td>
                 <td className="px-6 py-4">{item.dateTime.split(' ')[0]}</td>
